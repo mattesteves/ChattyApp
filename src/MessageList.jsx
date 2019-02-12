@@ -5,13 +5,13 @@ import Message from './Message.jsx';
 module.exports = class MessageList extends Component {
   render(){
     const messages = this.props.messages.map(message => (
-      <Message name={message.username} content={message.content} />
+     <Message name={message.username} content={message.content} key={message.id} />
       ))
       
      
-    return (<div>
+    return (<ul>
       {messages}
-      </div>
+      </ul>
     )
   }
 }

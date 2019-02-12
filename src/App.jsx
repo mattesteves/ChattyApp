@@ -11,11 +11,18 @@ class App extends Component {
       messages: [
         {
           username: "Bob",
-          content: "Has anyone seen my marbles?"
+          content: "Has anyone seen my marbles?",
+          id: "glumpus"
         },
         {
           username: "Glorbus",
-          content: "nerds"
+          content: "You cretin, you absolute buffoon. How would we see your marbles? This is a chatroom.",
+          id: "doorf"
+        },
+        {
+          username: "Glorbus",
+          content: "I hope you're stricken with an incurable disease.",
+          id: "gadoorf"
         }
       ]
     };
