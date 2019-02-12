@@ -4,11 +4,14 @@ import Message from './Message.jsx';
 
 module.exports = class MessageList extends Component {
   render(){
-    return (
-      <main className="messages">
-      <Message />
-      </main>
-
+    const messages = this.props.messages.map(message => (
+      <Message name={message.username} content={message.content} />
+      ))
+      
+     
+    return (<div>
+      {messages}
+      </div>
     )
   }
 }
