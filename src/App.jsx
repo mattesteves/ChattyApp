@@ -12,26 +12,31 @@ class App extends Component {
     super(props);
     this.state = {
       currentUser: { name: "Anonymous" },
-      currId:0,
       messages: []
     };
 
     this.getMessage= this.getMessage.bind(this);
     this.getUsername= this.getUsername.bind(this);
+    this.appendMessage= this.appendMessage.bind(this);
 
 
   }
   getMessage(event){
   if (event.key === 'Enter'){
-    console.log(event.target.value)
-    let newMessage= {id:this.state.currId, username:this.state.currentUser.name, content: event.target.value };
+    let newMessage= {username:this.state.currentUser.name, content: event.target.value };
     let sendData = { username: newMessage.username, content: newMessage.content}
     this.socket.send(JSON.stringify(sendData));
+    event.target.value=''
+    }
+  };
+  appendMessage(messageInfo){
+    console.log(messageInfo)
+    let newMessage={username: messageInfo.username, content:messageInfo.content, key:messageInfo.id}
+    console.log(newMessage)
     const messages= this.state.messages.concat(newMessage);
     this.setState({messages: messages})
 
-    }
-  };
+  }
   getUsername(event){
       this.setState({currentUser:{name: event.target.value} })
     };
@@ -40,6 +45,11 @@ class App extends Component {
     console.log("componentDidMount <App />");
     this.socket = new WebSocket("ws:0.0.0.0:3001"); 
     this.socket.onopen = () => {}
+    this.socket.onmessage = (event)=>{
+      console.log(event.data);
+      this.appendMessage(JSON.parse(event.data));
+
+    }
     };
   
   render() {
