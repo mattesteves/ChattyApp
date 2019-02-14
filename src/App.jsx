@@ -34,11 +34,9 @@ class App extends Component {
 
   userMod(action){
     this.setState({online: action})
-    console.log(this.state.online)
   };
 
   appendMessage(messageInfo){
-    console.log(messageInfo)
     let newMessage={};
 
     switch(messageInfo.type){
@@ -56,7 +54,6 @@ class App extends Component {
           break;
     }
 
-    console.log(newMessage)
     const messages= this.state.messages.concat(newMessage);
     this.setState({messages: messages})
 
@@ -85,8 +82,6 @@ class App extends Component {
       let appendo= this.appendMessage;
       let usermod= this.userMod;
       if (data.type == "usercount"){
-        console.log("data.type= " + data.type)
-        console.log(data.userNum)
         usermod(data.userNum)
 
       } else{
@@ -101,7 +96,7 @@ class App extends Component {
         <nav className="navbar">
           <a href="/" className="navbar-brand">Chatty</a>
           <span className="online">
-            <h2>Users online:{this.state.online}</h2>
+            <h2>Users online: {this.state.online}</h2>
           </span>
         </nav>
         <main>
