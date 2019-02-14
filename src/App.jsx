@@ -12,12 +12,14 @@ class App extends Component {
     super(props);
     this.state = {
       currentUser: { name: "Anonymous" },
-      messages: []
+      messages: [],
+      online: 0
     };
 
     this.getMessage= this.getMessage.bind(this);
     this.getUsername= this.getUsername.bind(this);
     this.appendMessage= this.appendMessage.bind(this);
+    this.userMod= this.userMod.bind(this);
 
 
   }
@@ -29,6 +31,12 @@ class App extends Component {
     event.target.value=''
     }
   };
+
+  userMod(action){
+    this.setState({online: action})
+    console.log(this.state.online)
+  };
+
   appendMessage(messageInfo){
     console.log(messageInfo)
     let newMessage={};
@@ -61,9 +69,6 @@ class App extends Component {
       sendData.type= "notification"; 
       sendData.oldName= oldName;
       sendData.newName= newName;
-      console.log(oldName);
-      console.log(newName)
-      console.log("Senddata: " + sendData.oldName)
       this.socket.send(JSON.stringify(sendData));
 
       this.setState({currentUser:{name: newName} })
@@ -76,24 +81,41 @@ class App extends Component {
     this.socket = new WebSocket("ws:0.0.0.0:3001"); 
     this.socket.onopen = () => {}
     this.socket.onmessage = (event)=>{
-      console.log("received from server:" + event.data);
-      this.appendMessage(JSON.parse(event.data));
+      let data= JSON.parse(event.data);
+      let appendo= this.appendMessage;
+      let usermod= this.userMod;
+      if (data.type == "usercount"){
+        console.log("data.type= " + data.type)
+        console.log(data.userNum)
+        usermod(data.userNum)
 
+      } else{
+      appendo(data);
+      }
     }
-    };
+  };
   
   render() {
     return (
       <div>
         <nav className="navbar">
           <a href="/" className="navbar-brand">Chatty</a>
+          <span className="online">
+            <h2>Users online:{this.state.online}</h2>
+          </span>
         </nav>
         <main>
-          <MessageList messages={this.state.messages}/>
+          <MessageList 
+            messages={this.state.messages}
+          />
         </main>
-        <Chatbar currentUser={this.state.currentUser} getMessage={this.getMessage} getUsername={this.getUsername} />
+        <Chatbar currentUser={this.state.currentUser} 
+          getMessage={this.getMessage} 
+          getUsername={this.getUsername} 
+        />
       </div>
     );
   }
 };
+
 export default App;
