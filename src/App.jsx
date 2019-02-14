@@ -24,29 +24,59 @@ class App extends Component {
   getMessage(event){
   if (event.key === 'Enter'){
     let newMessage= {username:this.state.currentUser.name, content: event.target.value };
-    let sendData = { username: newMessage.username, content: newMessage.content}
+    let sendData = {type:"newMessage", username: newMessage.username, content: newMessage.content}
     this.socket.send(JSON.stringify(sendData));
     event.target.value=''
     }
   };
   appendMessage(messageInfo){
     console.log(messageInfo)
-    let newMessage={username: messageInfo.username, content:messageInfo.content, key:messageInfo.id}
+    let newMessage={};
+
+    switch(messageInfo.type){
+      case "newMessage":
+        newMessage.username = messageInfo.username; 
+        newMessage.content = messageInfo.content;
+        newMessage.key = messageInfo.id;
+        newMessage.type = messageInfo.type;
+          break;
+      case "notification":
+        newMessage.oldName = messageInfo.oldName;
+        newMessage.newName = messageInfo.newName
+        newMessage.key= messageInfo.id;
+        newMessage.type = messageInfo.type;
+          break;
+    }
+
     console.log(newMessage)
     const messages= this.state.messages.concat(newMessage);
     this.setState({messages: messages})
 
   }
   getUsername(event){
-      this.setState({currentUser:{name: event.target.value} })
+    let sendData={}
+    if (event.key === 'Enter'){
+      let oldName= this.state.currentUser.name;
+      let newName= event.target.value;
+      sendData.type= "notification"; 
+      sendData.oldName= oldName;
+      sendData.newName= newName;
+      console.log(oldName);
+      console.log(newName)
+      console.log("Senddata: " + sendData.oldName)
+      this.socket.send(JSON.stringify(sendData));
+
+      this.setState({currentUser:{name: newName} })
     };
+
+  };
 
   componentDidMount() {
     console.log("componentDidMount <App />");
     this.socket = new WebSocket("ws:0.0.0.0:3001"); 
     this.socket.onopen = () => {}
     this.socket.onmessage = (event)=>{
-      console.log(event.data);
+      console.log("received from server:" + event.data);
       this.appendMessage(JSON.parse(event.data));
 
     }
