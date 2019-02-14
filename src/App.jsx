@@ -11,7 +11,10 @@ class App extends Component {
   
     super(props);
     this.state = {
-      currentUser: { name: "Anonymous" },
+      currentUser: {
+         name: 'Anonymous',
+        },
+        color:'',
       messages: [],
       online: 0
     };
@@ -25,15 +28,19 @@ class App extends Component {
   }
   getMessage(event){
   if (event.key === 'Enter'){
-    let newMessage= {username:this.state.currentUser.name, content: event.target.value };
-    let sendData = {type:"newMessage", username: newMessage.username, content: newMessage.content}
+    let newMessage= {username:this.state.currentUser.name, content: event.target.value, color: this.state.color };
+    let sendData = {type:"newMessage", username: newMessage.username, content: newMessage.content, color: newMessage.color}
     this.socket.send(JSON.stringify(sendData));
     event.target.value=''
     }
   };
 
-  userMod(action){
+  userMod(action, color){
     this.setState({online: action})
+    if (!color == this.state.color){
+      this.setState({color: color})
+      console.log(color)
+    }
   };
 
   appendMessage(messageInfo){
@@ -45,6 +52,7 @@ class App extends Component {
         newMessage.content = messageInfo.content;
         newMessage.key = messageInfo.id;
         newMessage.type = messageInfo.type;
+        newMessage.color= messageInfo.color
           break;
       case "notification":
         newMessage.oldName = messageInfo.oldName;
@@ -82,7 +90,7 @@ class App extends Component {
       let appendo= this.appendMessage;
       let usermod= this.userMod;
       if (data.type == "usercount"){
-        usermod(data.userNum)
+        usermod(data.userNum, data.colorNum)
 
       } else{
       appendo(data);
@@ -102,6 +110,7 @@ class App extends Component {
         <main>
           <MessageList 
             messages={this.state.messages}
+            color={this.state.color}
           />
         </main>
         <Chatbar currentUser={this.state.currentUser} 

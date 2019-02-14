@@ -12,6 +12,7 @@ module.exports = class MessageList extends Component {
         type={message.type}
         oldName={message.oldName}
         newName={message.newName}
+        color={message.color}
       />
     ))
 
