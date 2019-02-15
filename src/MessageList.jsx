@@ -1,9 +1,8 @@
-
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Message from './Message.jsx';
 
 module.exports = class MessageList extends Component {
-  render(){
+  render() {
     const messages = this.props.messages.map(message => (
       <Message
         name={message.username}
@@ -14,8 +13,8 @@ module.exports = class MessageList extends Component {
         newName={message.newName}
         color={message.color}
       />
-    ))
+    ));
 
-    return (<ul>{messages}</ul>)
+    return <ul>{messages}</ul>;
   }
-}
+};

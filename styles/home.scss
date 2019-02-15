@@ -60,19 +60,18 @@ body {
   flex: 2;
   font-weight: 700;
 }
-    .one {
-        color: #731284;
-      }
-    .two {
-      color: #0f4f1d;
-    }
-    .three {
-      color: #7f3b00;
-    }
-    .four {
-      color: #09238c;
-    }
-
+.one {
+  color: #731284;
+}
+.two {
+  color: #0f4f1d;
+}
+.three {
+  color: #7f3b00;
+}
+.four {
+  color: #09238c;
+}
 
 .navbar {
   background: tomato;
@@ -83,9 +82,9 @@ body {
   position: fixed;
   right: 0;
   top: 0;
-    .online{
-      float: right;
-    }
+  .online {
+    float: right;
+  }
 }
 
 .navbar-brand {
@@ -98,4 +97,8 @@ body {
   line-height: 60px;
   padding: 0 10px;
   text-decoration: none;
+}
+
+.smImg {
+  max-width: 60%;
 }
