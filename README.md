@@ -6,12 +6,12 @@ ChattyApp is a single page web-app which allows users to conntect to a server an
 
 ### Screenshots
 
-[Screenshot 1](https://i.imgur.com/DHhPoLG.png)
-[Screenshot 2](https://i.imgur.com/0HoNWYr.png)
+- [Screenshot 1](https://i.imgur.com/DHhPoLG.png)
+- [Screenshot 2](https://i.imgur.com/0HoNWYr.png)
 
 ### Getting started
 
-In your one terminal in the directory where you have stored the app:
+In your terminal in the directory where you have stored the app:
 
 ```
 npm install
